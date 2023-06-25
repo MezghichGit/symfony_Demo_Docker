@@ -1,0 +1,56 @@
+# Docker Compose 
+version: '3.0'
+
+# Define services
+services:
+  # symfony service
+  symfony:
+    image: camp_symfony
+    ports:
+      - "86:80" 
+    container_name: camp_symf_cont
+    depends_on:
+      - database
+    restart: always
+    environment:
+      DATABASE_URL: "mysql://root:dhiasaria123@database:3306/amssymfonyv2?serverVersion=mariadb-10.4.11"
+    networks:
+      - camp_net
+
+  # Database Service(Mysql)
+  database:
+    image: mysql
+    container_name: camp_symf_db
+    volumes:
+       - db_camp:/var/lib/mysql 
+    restart: always
+    environment:
+      MYSQL_DATABASE: amssymfonyv2
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: dhiasaria123    
+    networks:
+      - camp_net
+
+  # phpmyadmin Service 
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: camp_symf_phpad
+    depends_on:
+      - database
+    restart: always
+    ports:
+      - 7069:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - camp_net
+
+# Dec vol
+volumes:
+   db_camp:
+
+# Dec net
+networks:
+  camp_net:
+
+

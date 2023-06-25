@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+<h3 align="center">Liste de nos providers</h3>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-body">
+					<div class="active-member">
+						<div class="table-responsive">
+							<table class="table table-xs mb-0">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Label</th>
+										<th>Email</th>
+										<th>Logo</th>
+										<th>Adresse</th>
+										<th>CreatedAt</th>
+										 {% if app.user.roles[0]== "ROLE_ADMIN" %}
+										<th>actions</th>
+										 {% endif %}
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr>
+										{% for provider in providers %}
+											<tr>
+												<td>{{ provider.id }}</td>
+												<td>{{ provider.label }}</td>
+												<td>{{ provider.email }}</td>
+												<td><img src="{{ asset('uploads/providers/' ~ provider.logo ) }} " width="100" height="50"/></td>
+												<td>{{ provider.adresse }}</td>
+												<td>{{ provider.createdAt ? provider.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+												 {% if app.user.roles[0]== "ROLE_ADMIN" %}
+												<td>
+													<a href="{{ path('app_provider_show', {'id': provider.id}) }}">show</a>
+													<a href="{{ path('app_provider_edit', {'id': provider.id}) }}">edit</a>
+												</td>
+												 {% endif %}
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="7">no records found</td>
+											</tr>
+										{% endfor %}
+									</tr>
+								</tbody>
+							</table>
+						{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Provider{% endblock %}
+
+{% block body %}
+    <h3 align="center">Ajouter new Provider</h3>
+
+    {{ include('provider/_form.html.twig') }}
+
+    <a href="{{ path('app_provider_index') }}">back to list</a>
+{% endblock %}
